@@ -1,0 +1,19 @@
+security:
+    providers:
+        app_user_provider:
+           entity: 
+            class: App\Entity\User
+            property: email
+    firewalls:
+        api_token:
+            pattern: ^/api/token$
+            security: false
+        api:
+            pattern: ^/api
+            security: true
+            stateless: true
+            oauth2: true  
+        main:              
+            anonymous: true
+    access_control:
+        - { path: ^/authorize, roles: IS_AUTHENTICATED_REMEMBERED }

@@ -1,0 +1,32 @@
+version: '2'
+services:
+    postgres:
+        image: postgres
+        restart: always
+        ports:
+            - '5433:5432'
+        environment:
+                - PGDATA=/var/lib/postgresql/data/pgdata
+                - POSTGRES_DB=${DATABASE_NAME}
+                - POSTGRES_USER=${DATABASE_USER}
+                - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+                - POSTGRES_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+    php:
+        build: php-fpm
+        ports:
+            - '9002:9000'
+        volumes:
+            - ../:/var/www/symfony:cached
+            - ./logs/symfony:/var/www/var/logs:cached
+        links:
+            - postgres
+    nginx:
+        build: nginx
+        ports:
+            - '8080:80'
+        links:
+            - php
+        volumes_from:
+            - php
+        volumes:
+            - ./logs/nginx/:/var/log/nginx:cached
