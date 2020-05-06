@@ -37,7 +37,7 @@ docker-compose run php bin/console trikoder:oauth2:update-client --redirect-uri 
 
 ```
 
-##Testing the client credentials grant token
+## Testing the client credentials grant token
 
 ```
 curl -X "POST" "http://localhost:8080/token" \
